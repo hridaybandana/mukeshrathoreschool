@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Student Result | Mukesh Rathore School</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="/css/style.css">
+
+    <style>
+        body {
+            background: #f4f7fb;
+        }
+
+        .result-wrap {
+            max-width: 1000px;
+            margin: 220px auto 60px;
+            background: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .result-wrap h1 {
+            text-align: center;
+            color: #003366;
+            margin-bottom: 10px;
+        }
+
+        .result-wrap p {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .search-box {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 30px;
+        }
+
+        .search-box input {
+            padding: 10px 12px;
+            font-size: 14px;
+            width: 250px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+        }
+
+        .search-box button {
+            padding: 10px 18px;
+            background: #003366;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .search-box button:hover {
+            opacity: 0.9;
+        }
+
+        .student-info {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .info-box {
+            background: #f7f9fc;
+            padding: 12px;
+            border-left: 4px solid #003366;
+            border-radius: 4px;
+        }
+
+        .info-box strong {
+            color: #003366;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+        }
+
+        th {
+            background: #003366;
+            color: #fff;
+        }
+
+        tfoot td {
+            font-weight: bold;
+            background: #f1f5fb;
+        }
+
+        .summary {
+            margin-top: 20px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+
+        .summary div {
+            background: #e8f0fe;
+            padding: 15px;
+            border-radius: 6px;
+            text-align: center;
+            font-weight: bold;
+            color: #003366;
+        }
+
+        .print-btn {
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .print-btn button {
+            padding: 10px 20px;
+            background: #6b7280;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+
+            .student-info,
+            .summary {
+                grid-template-columns: 1fr;
+            }
+
+            .search-box {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <div id="header"></div>
+
+    <!-- RESULT CONTENT -->
+    <div class="result-wrap">
+        <h1>Student Result</h1>
+        <p>Enter Roll Number to view result</p>
+
+        <div class="search-box">
+            <input type="text" id="rollNoInput" placeholder="Enter Roll Number">
+            <button onclick="fetchResult()">Get Result</button>
+        </div>
+
+        <div id="resultArea" style="display:none;">
+            <div class="student-info" id="studentInfo"></div>
+
+            <table id="marksTable">
+                <thead>
+                    <tr>
+                        <th>Subject</th>
+                        <th>Marks</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+                <tfoot>
+                    <tr>
+                        <td>Total</td>
+                        <td id="totalMarks"></td>
+                    </tr>
+                </tfoot>
+            </table>
+
+            <div class="summary">
+                <div id="percentageBox"></div>
+                <div id="gradeBox"></div>
+                <div id="statusBox"></div>
+            </div>
+
+            <div class="print-btn">
+                <button onclick="openMarksheet()">View CBSE Marksheet</button>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <div id="footer"></div>
+
+    <!-- LOAD HEADER & FOOTER -->
+    <script>
+        fetch("/header.html").then(r => r.text()).then(t => header.innerHTML = t);
+        fetch("/footer.html").then(r => r.text()).then(t => footer.innerHTML = t);
+    </script>
+
+    <!-- RESULT SCRIPT -->
+    <script>
+        const SHEET_URL = "https://opensheet.elk.sh/1Y3FfzxnKieCSNAbOygDnXbtPZMuZBoZUuJOBeM24b9I/StudentData";
+
+        function fetchResult() {
+            const rollNo = document.getElementById("rollNoInput").value.trim();
+            if (!rollNo) {
+                alert("Please enter Roll Number");
+                return;
+            }
+
+            fetch(SHEET_URL)
+                .then(res => res.json())
+                .then(data => {
+                    const student = data.find(s => s.Roll_No === rollNo);
+
+                    if (!student) {
+                        alert("Result not found for this Roll Number");
+                        return;
+                    }
+
+                    showResult(student);
+                });
+        }
+
+        function showResult(student) {
+            document.getElementById("resultArea").style.display = "block";
+
+            const infoBox = document.getElementById("studentInfo");
+            infoBox.innerHTML = `
+                <div class="info-box"><strong>Name:</strong><br>${student.Student_Name}</div>
+                <div class="info-box"><strong>Class:</strong><br>${student.Class}</div>
+                <div class="info-box"><strong>Roll No:</strong><br>${student.Roll_No}</div>
+                <div class="info-box"><strong>Exam:</strong><br>${student.Exam_Type}</div>
+                <div class="info-box"><strong>Father's Name:</strong><br>${student.Father_Name}</div>
+                <div class="info-box"><strong>Mother's Name:</strong><br>${student.Mother_Name}</div>
+            `;
+
+            const subjects = [
+                "English", "Hindi", "Mathematics", "EVS",
+                "Science", "Social_Science", "Computer", "Art"
+            ];
+
+            const tbody = document.querySelector("#marksTable tbody");
+            tbody.innerHTML = "";
+
+            let total = 0;
+            let count = 0;
+
+            subjects.forEach(sub => {
+                const mark = student[sub];
+                if (mark && mark !== "") {
+                    total += Number(mark);
+                    count++;
+                    tbody.innerHTML += `
+                        <tr>
+                            <td>${sub.replace("_", " ")}</td>
+                            <td>${mark}</td>
+                        </tr>
+                    `;
+                }
+            });
+
+            const percentage = ((total / (count * 100)) * 100).toFixed(2);
+
+            document.getElementById("totalMarks").innerText = total;
+            document.getElementById("percentageBox").innerText = `Percentage: ${percentage}%`;
+            document.getElementById("gradeBox").innerText = `Grade: ${student.Grade}`;
+            document.getElementById("statusBox").innerText = `Result: ${student.Result_Status}`;
+        }
+
+        function openMarksheet() {
+            const rollNo = document.getElementById("rollNoInput").value.trim();
+            if (!rollNo) {
+                alert("Roll Number missing");
+                return;
+            }
+            window.open(
+                "/marksheet.html?rollNo=" + encodeURIComponent(rollNo),
+                "_blank"
+            );
+        }
+    </script>
+
+    <script src="/js/main.js"></script>
+</body>
+
+</html>

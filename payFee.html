@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Pay School Fee | Mukesh Rathore School</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="/css/style.css">
+
+    <!-- Page specific styles -->
+    <style>
+        .fee-pay-banner {
+            padding: 285px 20px 50px;
+            background: linear-gradient(135deg, #e3f2fd, #ede7f6);
+            text-align: center;
+        }
+
+        .fee-pay-section {
+            padding: 50px 20px;
+            background: #f5f7fa;
+        }
+
+        .fee-pay-box {
+            max-width: 700px;
+            margin: auto;
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+            border-top: 6px solid #003366;
+        }
+
+        .fee-pay-box h2 {
+            text-align: center;
+            color: #003366;
+            margin-bottom: 20px;
+        }
+
+        .fee-pay-box p {
+            font-size: 16px;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .info-list {
+            margin-top: 20px;
+        }
+
+        .info-list li {
+            margin-bottom: 10px;
+            font-size: 15px;
+        }
+
+        .pay-btn {
+            display: block;
+            width: 100%;
+            margin-top: 25px;
+            padding: 12px;
+            background: #003366;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .pay-btn:hover {
+            background: #002244;
+        }
+
+        /* Animated Gradient Strip */
+        .gradient-strip {
+            width: 800px;
+            height: 20px;
+            margin: 40px auto 0;
+            background: linear-gradient(90deg,
+                    red, yellow);
+            background-size: 300% 100%;
+            animation: gradientMove 4s infinite;
+            border-radius: 10px;
+        }
+
+        @keyframes gradientMove {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 50% 100%;
+            }
+
+            100% {
+                background-position: 100% 0%;
+            }
+
+        }
+
+        @media (max-width: 900px) {
+            .gradient-strip {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ================= HEADER ================= -->
+    <div id="header"></div>
+
+    <!-- ================= BANNER ================= -->
+    <section class="fee-pay-banner">
+        <h1>Pay School Fee</h1>
+        <p>Secure & Convenient Fee Payment</p>
+    </section>
+
+    <!-- ================= CONTENT ================= -->
+    <section class="fee-pay-section">
+        <div class="fee-pay-box">
+
+            <h2>Online Fee Payment</h2>
+
+            <p>
+                Mukesh Rathore School provides a safe and convenient online fee payment
+                facility for parents and guardians. You can pay the school fee securely
+                through our authorized payment channels.
+            </p>
+
+            <ul class="info-list">
+                <li>✔ Supports UPI, Debit Card, Credit Card & Net Banking</li>
+                <li>✔ Instant payment confirmation</li>
+                <li>✔ Secure and encrypted transactions</li>
+                <li>✔ Receipt available after successful payment</li>
+                <li>✔ School assistance available during working hours</li>
+            </ul>
+
+            <button class="pay-btn">
+                Proceed to Pay Fee
+            </button>
+
+        </div>
+
+        <!-- Animated Gradient -->
+        <div class="gradient-strip"></div>
+
+    </section>
+
+    <!-- ================= FOOTER ================= -->
+    <div id="footer"></div>
+
+    <!-- ================= LOAD HEADER & FOOTER ================= -->
+    <script>
+        fetch("/header.html")
+            .then(res => res.text())
+            .then(data => document.getElementById("header").innerHTML = data);
+
+        fetch("/footer.html")
+            .then(res => res.text())
+            .then(data => document.getElementById("footer").innerHTML = data);
+    </script>
+
+    <script src="/js/main.js"></script>
+</body>
+
+</html>

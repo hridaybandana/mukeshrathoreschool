@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Sign In | Mukesh Rathore School</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="/css/style.css">
+
+    <!-- Page-specific styles -->
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            min-height: 100vh;
+        }
+
+        .signin-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 290px 20px 60px;
+        }
+
+        .signin-card {
+            width: 100%;
+            max-width: 420px;
+            background: #fff;
+            border-radius: 12px;
+            padding: 35px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+            animation: slideUp 0.8s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .signin-card h1 {
+            text-align: center;
+            color: #003366;
+            margin-bottom: 8px;
+        }
+
+        .signin-card p {
+            text-align: center;
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            position: relative;
+            margin-bottom: 22px;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .form-group label {
+            position: absolute;
+            top: 50%;
+            left: 12px;
+            transform: translateY(-50%);
+            background: #fff;
+            padding: 0 6px;
+            font-size: 13px;
+            color: #777;
+            pointer-events: none;
+            transition: 0.3s;
+        }
+
+        .form-group input:focus+label,
+        .form-group input:not(:placeholder-shown)+label,
+        .form-group select:focus+label {
+            top: -7px;
+            font-size: 12px;
+            color: #003366;
+        }
+
+        .actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .btn.primary {
+            background: #003366;
+            color: white;
+        }
+
+        .btn.secondary {
+            background: #6b7280;
+            color: white;
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+        }
+
+        .links {
+            margin-top: 18px;
+            text-align: center;
+            font-size: 13px;
+        }
+
+        .links a {
+            color: #003366;
+            text-decoration: none;
+            margin: 0 6px;
+        }
+
+        .links a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width:480px) {
+            .signin-card {
+                padding: 25px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ================= HEADER ================= -->
+    <div id="header"></div>
+
+    <!-- ================= SIGN IN ================= -->
+    <div class="signin-wrapper">
+        <div class="signin-card">
+            <h1>Sign In</h1>
+            <p>Access Student / Teacher / Staff Portal</p>
+
+            <form id="signinForm" autocomplete="off">
+
+                <div class="form-group">
+                    <input type="text" id="username" placeholder=" " required>
+                    <label for="username">Username</label>
+                </div>
+
+                <div class="form-group">
+                    <input type="password" id="password" placeholder=" " required>
+                    <label for="password">Password</label>
+                </div>
+
+                <div class="form-group">
+                    <select id="role" required>
+                        <option value="" disabled selected hidden></option>
+                        <option>Student</option>
+                        <option>Teacher</option>
+                        <option>Other Staff</option>
+                    </select>
+                    <label for="role">Sign in as</label>
+                </div>
+
+                <div class="actions">
+                    <button type="submit" class="btn primary">Sign In</button>
+                    <button type="reset" class="btn secondary">Reset</button>
+                </div>
+
+                <div class="links">
+                    <a href="#">Forgot Username?</a> |
+                    <a href="#">Forgot Password?</a>
+                </div>
+
+
+            </form>
+        </div>
+    </div>
+
+    <!-- ================= FOOTER ================= -->
+    <div id="footer"></div>
+
+    <!-- ================= LOAD HEADER & FOOTER ================= -->
+    <script>
+        fetch("/header.html")
+            .then(res => res.text())
+            .then(data => document.getElementById("header").innerHTML = data);
+
+        fetch("/footer.html")
+            .then(res => res.text())
+            .then(data => document.getElementById("footer").innerHTML = data);
+    </script>
+
+    <!-- ================= DEMO JS ================= -->
+    <script>
+        document.getElementById("signinForm").addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            const username = document.getElementById("username").value.trim();
+            const password = document.getElementById("password").value.trim();
+            const role = document.getElementById("role").value;
+
+            // basic validation
+            if (!username || !password || !role) {
+                alert("Please fill all fields");
+                return;
+            }
+
+            // STUDENT LOGIN
+            if (role === "Student") {
+                if (!username.startsWith("MRS-")) {
+                    alert("Invalid Student Username Format (Use Form No like MRS-0001)");
+                    return;
+                }
+
+                if (password !== "mukesh") {
+                    alert("Incorrect password");
+                    return;
+                }
+
+                // redirect to student dashboard
+                // save logged-in student
+                sessionStorage.setItem("loggedInStudent", username);
+
+                // redirect
+                window.location.href =
+                    "/student-dashboard.html?formNo=" + encodeURIComponent(username);
+
+            }
+
+            // TEACHER / STAFF (future)
+            if (role === "Teacher") {
+                if (!username.startsWith("MRS-T-")) {
+                    alert("Invalid Teacher ID");
+                    return;
+                }
+                if (password !== "mukesh") {
+                    alert("Incorrect password");
+                    return;
+                }
+
+                sessionStorage.setItem("loggedInTeacher", username);
+                window.location.href = "/teacher-dashboard.html";
+            }
+        });
+    </script>
+
+
+    <!-- <script src="/js/main.js"></script> -->
+</body>
+
+</html>

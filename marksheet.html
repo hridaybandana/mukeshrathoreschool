@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>CBSE Marksheet | Mukesh Rathore School</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        body {
+            background: #e5e7eb;
+            font-family: "Times New Roman", serif;
+        }
+
+        .marksheet {
+            width: 900px;
+            margin: 40px auto;
+            background: #fff;
+            padding: 30px;
+            border: 2px solid #000;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .watermark {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-45deg);
+            font-size: 250px;
+            font-weight: bold;
+            color: rgba(0, 0, 0, 0.06);
+            z-index: 0;
+            pointer-events: none;
+            white-space: nowrap;
+        }
+
+        .content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .header {
+            text-align: center;
+            border-bottom: 2px solid #000;
+            padding-bottom: 10px;
+        }
+
+        .header h2 {
+            margin: 5px 0;
+            font-size: 22px;
+        }
+
+        .header h3 {
+            margin: 5px 0;
+            font-size: 16px;
+            font-weight: normal;
+        }
+
+        .school-name {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .info-table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+
+        .info-table td {
+            padding: 6px;
+        }
+
+        .marks-table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+
+        .marks-table th,
+        .marks-table td {
+            border: 1px solid #000;
+            padding: 8px;
+            text-align: center;
+        }
+
+        .marks-table th {
+            background: #f3f4f6;
+        }
+
+        .footer {
+            margin-top: 30px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+        }
+
+        .signature {
+            text-align: center;
+        }
+
+        .print-btn {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .print-btn button {
+            padding: 8px 20px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        @media print {
+            .print-btn {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="marksheet">
+        <div class="watermark">CBSE</div>
+        <div class="content">
+
+            <div class="header" style="display:flex; align-items:center; gap:20px;">
+                <img src="/images/HR Logo.png" alt="School Logo" style="height:80px;">
+                <div style="flex:1; text-align:center;">
+                    <h2>CENTRAL BOARD OF SECONDARY EDUCATION</h2>
+                    <h3>ANNUAL EXAMINATION</h3>
+                    <div class="school-name">MUKESH RATHORE SCHOOL, INDORE</div>
+                </div>
+            </div>
+        </div>
+        <table class="info-table">
+            <tr>
+                <td><strong>Student Name:</strong></td>
+                <td id="name"></td>
+                <td><strong>Roll No:</strong></td>
+                <td id="roll"></td>
+            </tr>
+            <tr>
+                <td><strong>Father's Name:</strong></td>
+                <td id="father"></td>
+                <td><strong>Mother's Name:</strong></td>
+                <td id="mother"></td>
+            </tr>
+            <tr>
+                <td><strong>Class:</strong></td>
+                <td id="class"></td>
+                <td><strong>Session:</strong></td>
+                <td>2025–26</td>
+            </tr>
+        </table>
+
+        <table class="marks-table">
+            <thead>
+                <tr>
+                    <th>Subject</th>
+                    <th>Marks Obtained</th>
+                    <th>Maximum Marks</th>
+                </tr>
+            </thead>
+            <tbody id="marksBody"></tbody>
+            <tfoot>
+                <tr>
+                    <th>Total</th>
+                    <th id="totalMarks"></th>
+                    <th id="maxMarks"></th>
+                </tr>
+            </tfoot>
+        </table>
+
+        <div class="footer">
+            <div>
+                <p><strong>Result:</strong> <span id="resultStatus"></span></p>
+                <p><strong>Grade:</strong> <span id="grade"></span></p>
+            </div>
+            <div class="signature">
+                <p>_____________________</p>
+                <p>Principal</p>
+            </div>
+        </div>
+
+        <div class="print-btn">
+            <button onclick="window.print()">Print / Save PDF</button>
+        </div>
+
+    </div>
+
+    <script>
+        const SHEET_URL = "https://opensheet.elk.sh/1Y3FfzxnKieCSNAbOygDnXbtPZMuZBoZUuJOBeM24b9I/StudentData";
+        const params = new URLSearchParams(window.location.search);
+        const rollNo = params.get("rollNo");
+
+        fetch(SHEET_URL)
+            .then(res => res.json())
+            .then(data => {
+                const s = data.find(x => x.Roll_No === rollNo);
+                if (!s) {
+                    alert("Invalid Marksheet Access");
+                    return;
+                }
+
+                document.getElementById("name").innerText = s.Student_Name;
+                document.getElementById("roll").innerText = s.Roll_No;
+                document.getElementById("father").innerText = s.Father_Name;
+                document.getElementById("mother").innerText = s.Mother_Name;
+                document.getElementById("class").innerText = s.Class;
+                document.getElementById("grade").innerText = s.Grade;
+                document.getElementById("resultStatus").innerText = s.Result_Status;
+
+                const subjects = [
+                    "English", "Hindi", "Mathematics", "EVS",
+                    "Science", "Social_Science", "Computer", "Art"
+                ];
+
+                let total = 0;
+                let count = 0;
+                const tbody = document.getElementById("marksBody");
+
+                subjects.forEach(sub => {
+                    if (s[sub]) {
+                        total += Number(s[sub]);
+                        count++;
+                        tbody.innerHTML += `
+                <tr>
+                    <td>${sub.replace("_"," ")}</td>
+                    <td>${s[sub]}</td>
+                    <td>100</td>
+                </tr>
+            `;
+                    }
+                });
+
+                document.getElementById("totalMarks").innerText = total;
+                document.getElementById("maxMarks").innerText = count * 100;
+            });
+    </script>
+
+</body>
+
+</html>

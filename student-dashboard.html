@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Student Dashboard | Mukesh Rathore School</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Main CSS (UNCHANGED) -->
+    <link rel="stylesheet" href="/css/style.css">
+
+    <style>
+        .dashboard-wrap {
+            max-width: 1100px;
+            margin: 200px auto 60px;
+            padding: 20px;
+            background: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .student-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #003366;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        .student-header h2 {
+            color: #003366;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .info-box {
+            background: #f7f9fc;
+            padding: 12px;
+            border-left: 4px solid #003366;
+            border-radius: 4px;
+        }
+
+        .info-box strong {
+            color: #003366;
+        }
+
+        @media(max-width: 768px) {
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <div id="header"></div>
+
+    <!-- DASHBOARD -->
+    <div class="dashboard-wrap">
+        <div class="student-header">
+            <h2>Student Profile</h2>
+            <span id="studentForm"></span>
+        </div>
+
+        <div class="info-grid" id="studentData">
+            <!-- Dynamic data -->
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <div id="footer"></div>
+
+    <!-- LOAD HEADER & FOOTER -->
+    <script>
+        fetch("/header.html").then(r => r.text()).then(t => header.innerHTML = t);
+        fetch("/footer.html").then(r => r.text()).then(t => footer.innerHTML = t);
+    </script>
+
+    <!-- STUDENT DATA SCRIPT -->
+
+
+    // ================= SECURITY GUARD =================
+    <script>
+        (function () {
+            // ================= SECURITY GUARD =================
+            const params = new URLSearchParams(window.location.search);
+            const formNoFromURL = params.get("formNo");
+            const loggedInStudent = sessionStorage.getItem("loggedInStudent");
+
+            if (!loggedInStudent || loggedInStudent !== formNoFromURL) {
+                alert("Unauthorized access. Please sign in again.");
+                window.location.href = "/signin.html";
+                return; // ✅ now legal (inside function)
+            }
+
+            // ================= SAFE TO CONTINUE =================
+            document.getElementById("studentForm").innerText =
+                "Form No: " + formNoFromURL;
+
+            fetch("https://opensheet.elk.sh/1Y3FfzxnKieCSNAbOygDnXbtPZMuZBoZUuJOBeM24b9I/StudentData")
+                .then(res => res.json())
+                .then(data => {
+                    const student = data.find(
+                        s => s.Form_No === formNoFromURL
+                    );
+
+                    if (!student) {
+                        alert("Student record not found");
+                        return;
+                    }
+
+                    const container = document.getElementById("studentData");
+
+                    const fields = {
+                        "Student Name": student.Student_Name,
+                        "Class": student.Class,
+                        "Father's Name": student.Father_Name,
+                        "Mother's Name": student.Mother_Name,
+                        "Number of Days Presents": student.Present,
+                        "Attendance (%)": student.Attendance,
+                        "Date of Birth": student.DOB,
+                        "Blood Group": student.Blood_Group,
+                        "Address": student.Address,
+                        "Emergency Contact": student.Emergency_Contact_No,
+                        "Category": student.Category,
+                        "Religion": student.Religion,
+                        "Physical Disability": student.Physical_Disability,
+                        "Aadhar Number": student.Aadhar
+                    };
+
+                    for (let label in fields) {
+                        const div = document.createElement("div");
+                        div.className = "info-box";
+                        div.innerHTML = `<strong>${label}:</strong><br>${fields[label]}`;
+                        container.appendChild(div);
+                    }
+                });
+        })();
+    </script>
+
+
+
+
+    <script src="js/main.js"></script>
+</body>
+
+</html>

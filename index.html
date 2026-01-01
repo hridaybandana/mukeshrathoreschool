@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mukesh Rathore School</title>
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: #003366;
+            /* Navy blue */
+            color: white;
+            padding: 10px 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+            padding-bottom: 5px;
+        }
+
+        .contact-info {
+            display: flex;
+            gap: 20px;
+        }
+
+        .title-bar {
+            background: white;
+            padding: 10px 0;
+            color: #003366;
+        }
+
+        .title-bar .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .school-title {
+            font-size: 35px;
+
+            font-weight: bold;
+            color: #003366;
+            text-align: left;
+            flex: 1;
+            margin: 0 120px;
+        }
+
+        .nav-bar {
+            background: white;
+            padding: 5px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .nav-bar .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .small-logo {
+            position: absolute;
+            left: 20px;
+            display: none;
+        }
+
+        .small-logo img {
+            height: 70px;
+            padding-top: 10px;
+        }
+
+        .nav {
+            display: flex;
+            list-style: none;
+            gap: 20px;
+        }
+
+        .nav li {
+            position: relative;
+        }
+
+        .nav a {
+            text-decoration: none;
+            color: #003366;
+            padding: 10px;
+            display: block;
+        }
+
+        .nav a:hover {
+            background: #003366;
+            color: white;
+        }
+
+        /* Dropdown Submenu */
+        .dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: white;
+            min-width: 200px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: none;
+            z-index: 1001;
+            list-style: none;
+            /* Added to remove bullets from dropdown ul */
+            padding: 0;
+            /* Ensure no padding adds indentation */
+            margin: 0;
+            /* Ensure no margin */
+        }
+
+        .nav li:hover .dropdown {
+            display: block;
+        }
+
+        .dropdown li {
+            border-bottom: 1px solid #eee;
+        }
+
+        .dropdown li:last-child {
+            border-bottom: none;
+        }
+
+        .login-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            min-width: 150px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: none;
+            z-index: 1001;
+        }
+
+        .login:hover .login-dropdown {
+            display: block;
+        }
+
+        .login-dropdown a {
+            color: #333;
+            padding: 10px 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .login-dropdown a:last-child {
+            border-bottom: none;
+        }
+
+        .login-dropdown a:hover {
+            background: #003366;
+            color: white;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: #f4f4f4;
+            padding: 150px 0 50px;
+            /* Increased top padding due to taller header */
+            text-align: center;
+        }
+
+        .welcome-arch {
+            font-size: 36px;
+            padding-top: 10px;
+            color: #003366;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .welcome-text {
+            font-size: 24px;
+            margin-bottom: 10px;
+            margin-top: 70px;
+        }
+
+        .hero-image {
+            max-width: 100%;
+            height: auto;
+            margin: 20px 0;
+        }
+
+        /* About Section */
+        .about {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 40px;
+            padding: 50px 0;
+            align-items: start;
+        }
+
+        .about-text {
+            font-size: 16px;
+        }
+
+        .principal {
+            text-align: center;
+        }
+
+        .principal img {
+            width: 100%;
+            max-width: 250px;
+            border-radius: 50%;
+            margin-bottom: 20px;
+        }
+
+        .principal h3 {
+            color: #003366;
+            margin-bottom: 10px;
+        }
+
+        /* Carousel Section */
+        .carousel-section {
+            padding: 50px 0;
+            background: #f9f9f9;
+        }
+
+        .carousel {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+            overflow: hidden;
+            border-radius: 10px;
+        }
+
+        .carousel-inner {
+            display: flex;
+            transition: transform 0.5s ease;
+        }
+
+        .carousel-slide {
+            min-width: 100%;
+            height: 400px;
+            background: #ddd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: #666;
+        }
+
+        .carousel-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 51, 102, 0.7);
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        .prev {
+            left: 10px;
+        }
+
+        .next {
+            right: 10px;
+        }
+
+        .carousel-indicators {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .indicator {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            background: #ccc;
+            border-radius: 50%;
+            margin: 0 5px;
+            cursor: pointer;
+        }
+
+        .indicator.active {
+            background: #003366;
+        }
+
+        /* Footer */
+        footer {
+            background: #003366;
+            color: white;
+            padding: 30px 0 20px;
+            text-align: center;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: 1fr 2fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: space-around;
+            list-style: none;
+        }
+
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            padding: 10px;
+        }
+
+        .footer-links a:hover {
+            text-decoration: underline;
+        }
+
+        .copyright {
+            border-top: 1px solid #555;
+            padding-top: 10px;
+            font-size: 14px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .title-bar .container {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .school-title {
+                margin: 0;
+                order: -1;
+            }
+
+            .nav-bar .container {
+                justify-content: center;
+            }
+
+            .nav {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .about {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .prince {
+            display: flex;
+
+            /* creates gap */
+            width: 100%;
+        }
+
+        .column {
+            width: 1%;
+            box-sizing: border-box;
+        }
+
+        .column img {
+
+            align-items: center;
+            max-width: 350px;
+            border-radius: 50%;
+            margin-bottom: 20px;
+        }
+
+        .left,
+        .right {
+            padding: 15px;
+        }
+
+        @media (max-width: 768px) {
+            .principal {
+                flex-direction: column;
+            }
+
+            .column {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-top">
+            <div class="contact-info">
+                <span>Ph: 123456789</span>
+                <span>Email: abc@gmail.com</span>
+            </div>
+            <div>
+                <span> 📍 <a href="https://maps.app.goo.gl/JtWbP3bvzYTdjm9R9" target="_blank" style="color: white;"">
+                        Location</a></span>&nbsp;&nbsp; <span class=" login">Sign
+                        In</span>
+                <div class="login-dropdown">
+                    <a href="#">Student Login</a>
+                    <a href="#">Parents Login</a>
+                    <a href="#">Staff Login</a>
+                </div>
+            </div>
+        </div>
+        <div class="title-bar">
+            <div class="container">
+                <div class="logo"><img src="/images/HR Logo.png" alt="Mukesh Rathore School Logo" height="140px"
+                        style="padding-top: 15px;"></div>
+                <div class="school-title">WE TEACH FUTURE ORIENTED EDUCATION</div>
+                <div></div> <!-- Spacer for alignment -->
+            </div>
+        </div>
+        <div class="nav-bar">
+            <div class="container">
+                <div class="small-logo"><img src="/images/HR Logo.png" alt="Mukesh Rathore School Logo"></div>
+                <nav>
+                    <ul class="nav">
+                        <li><a href="#">Home</a></li>
+                        <li>
+                            <a href="#">Course</a>
+                            <ul class="dropdown">
+                                <li><a href="#">Class 1</a></li>
+                                <li><a href="#">Class 2</a></li>
+                                <li><a href="#">Class 3</a></li>
+                                <li><a href="#">Class 4</a></li>
+                                <li><a href="#">Class 5</a></li>
+                                <li><a href="#">Class 6</a></li>
+                                <li><a href="#">Class 7</a></li>
+                                <li><a href="#">Class 8</a></li>
+                                <li><a href="#">Class 9</a></li>
+                                <li><a href="#">Class 10</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#">Fee Structure</a>
+                            <ul class="dropdown">
+                                <li><a href="#">Class 1</a></li>
+                                <li><a href="#">Class 2</a></li>
+                                <li><a href="#">Class 3</a></li>
+                                <li><a href="#">Class 4</a></li>
+                                <li><a href="#">Class 5</a></li>
+                                <li><a href="#">Class 6</a></li>
+                                <li><a href="#">Class 7</a></li>
+                                <li><a href="#">Class 8</a></li>
+                                <li><a href="#">Class 9</a></li>
+                                <li><a href="#">Class 10</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#">About</a>
+                            <ul class="dropdown">
+                                <li><a href="#">School</a></li>
+                                <li><a href="#">Principal</a></li>
+                                <li><a href="#">Teachers</a></li>
+                                <li><a href="#">Lab</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="#">Results</a></li>
+                        <li><a href="#">Location</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="welcome-arch">MUKESH RATHORE SCHOOL</div>
+            <div class="welcome-text"><span style="font-size: 140%; color: darkblue; font-family:'Lucida Sans';">Welcome
+                    to
+                    Mukesh Rathore
+                    School</span><br>Nurturing Future Leaders</div>
+            <img src="/images/SchoolB.png" alt="School Building" class="hero-image"> <!-- Replace with actual image -->
+        </div>
+    </section>
+    <!-- Carousel Section (4 Carousels - assuming one main carousel with 4 slides; duplicate if needed for 4 separate) -->
+    <section class="carousel-section">
+        <div class="container">
+            <h2 style="text-align: center; margin-bottom: 30px; color: #003366;">School Highlights </h2>
+            <div class="carousel">
+                <div class="carousel-inner" id="carouselInner">
+
+                    <div class="carousel-slide">
+                        <img src="/images/Prayer.png" alt="Mukesh Rathore School Prayer">
+                        <!-- Placeholder: Add your image 2 -->
+                    </div>
+                    <div class="carousel-slide">
+                        <img src="/images/AnnualF.png" alt="Mukesh Rathore School Annual Functions">
+                        <!-- Placeholder: Add your image 3 -->
+                    </div>
+                    <div class="carousel-slide">
+                        <img src="/images/Sports.png" alt="Mukesh Rathore School Sports Activities">
+                        <!-- Placeholder: Add your image 4 -->
+                    </div>
+                </div>
+                <button class="carousel-btn prev" onclick="changeSlide(-1)">❮</button>
+                <button class="carousel-btn next" onclick="changeSlide(1)">❯</button>
+            </div>
+            <div class="carousel-indicators" id="indicators"></div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about">
+        <div class="prince">
+            <div class="Column left">
+                <h2>About the School</h2>
+                <p>Mukesh Rathore School is dedicated to providing a nurturing environment for holistic development. We
+                    focus on academic excellence, character building, and overall student growth.</p>
+                <p>Our state-of-the-art facilities and experienced faculty ensure quality education and recognized exam
+                    results and hypercomprehensive representative growth business.</p>
+                <p>We believe in fostering creativity and critical thinking, and believe in fostering creativity and
+                    resovonages and in brand development for holistic development.</p>
+                <br>
+                <h3>Principal's Message</h3>
+                <p>A message from our esteemed Principal.</p>
+                <p>Welcome to our school, a place where learning is nurtured with care, values are strengthened, and
+                    young minds are inspired to achieve excellence. As a CBSE-affiliated institution catering to
+                    students from Class I to Class X, we are committed to providing a balanced education that focuses
+                    not only on academic achievement but also on character building, creativity, and holistic
+                    development.
+
+                    <br>
+                    In todays rapidly changing world, education must go beyond textbooks. At our school, we encourage
+                    critical thinking, curiosity, discipline, and a lifelong love for learning. Our dedicated faculty
+                    works tirelessly to create a safe, inclusive, and stimulating environment where every child feels
+                    valued and motivated to explore their potential.
+                    <br>
+                    We believe that parents and teachers are partners in a child’s educational journey. Together, we
+                    strive to instill strong moral values, social responsibility, and confidence in our students so they
+                    can face future challenges with courage and integrity.
+                    <br>
+                    I invite you to join us in shaping responsible, compassionate, and successful individuals who will
+                    contribute positively to society.</p>
+            </div>
+            <div class="column right">
+                <img src="/images/Banna.png" alt="Principal"> <!-- Replace with actual image -->
+
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div>
+                    <h4>Address</h4>
+                    <p>123 School Lane, Indore<br>Ph: 123456789<br>Email: info@mrschool.com<br>Timing: 8:00 AM - 3:00 PM
+                    </p>
+                </div>
+                <ul class="footer-links">
+                    <li><a href="#">Pay School Fee</a></li>
+                    <li><a href="#">Forms</a></li>
+                    <li><a href="#">Career</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="#">Help</a></li>
+                </ul>
+                <div style="text-align: right;">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/d/d6/Logo_of_the_Central_Board_of_Secondary_Education.png"
+                        alt="CBSE Logo" style="width: 100px;">
+                </div>
+            </div>
+            <div class="copyright">
+                © Copyright 2025. All rights reserved. (<span style="color: yellow ;">For Learning Purpose Only</span>)
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.carousel-slide');
+        const totalSlides = slides.length;
+
+        // Initialize indicators
+        const indicatorsContainer = document.getElementById('indicators');
+        for (let i = 0; i < totalSlides; i++) {
+            const indicator = document.createElement('span');
+            indicator.classList.add('indicator');
+            if (i === 0) indicator.classList.add('active');
+            indicator.onclick = () => goToSlide(i);
+            indicatorsContainer.appendChild(indicator);
+        }
+        const indicators = document.querySelectorAll('.indicator');
+
+        function showSlide(index) {
+            document.getElementById('carouselInner').style.transform = `translateX(-${index * 100}%)`;
+            indicators.forEach((ind, i) => {
+                ind.classList.toggle('active', i === index);
+            });
+        }
+
+        function changeSlide(direction) {
+            currentSlide = (currentSlide + direction + totalSlides) % totalSlides;
+            showSlide(currentSlide);
+        }
+
+        function goToSlide(index) {
+            currentSlide = index;
+            showSlide(currentSlide);
+        }
+
+        // Auto-slide every 5 seconds
+        setInterval(() => changeSlide(1), 5000);
+
+        // Header scroll behavior
+        window.onscroll = function () {
+            const titleBar = document.querySelector('.title-bar');
+            const smallLogo = document.querySelector('.small-logo');
+            const hero = document.querySelector('.hero');
+            if (window.pageYOffset > 200) {
+                titleBar.style.display = 'none';
+                smallLogo.style.display = 'block';
+                hero.style.paddingTop = '100px'; // Adjust hero padding when title-bar is hidden
+            } else {
+                titleBar.style.display = 'block';
+                smallLogo.style.display = 'none';
+                hero.style.paddingTop = '150px'; // Original padding
+            }
+        };
+    </script>
+</body>
+
+</html>

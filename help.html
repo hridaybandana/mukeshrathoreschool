@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Help & Support | Mukesh Rathore School</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="/css/style.css">
+
+    <!-- Page-specific styles -->
+    <style>
+        .help-banner {
+            padding: 260px 20px 50px;
+            background: linear-gradient(135deg, #f3f7ff, #fdfdfd);
+            text-align: center;
+        }
+
+        .help-banner h1 {
+            font-size: 40px;
+            color: #003366;
+        }
+
+        .help-section {
+            padding: 50px 20px;
+            background: #fffaf3;
+        }
+
+        .help-container {
+            max-width: 1000px;
+            margin: auto;
+            background: #fff;
+            padding: 35px;
+            border-radius: 10px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .help-container h2 {
+            color: #003366;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+
+        .help-container p,
+        .help-container li {
+            line-height: 1.7;
+            font-size: 15px;
+        }
+
+        /* Accordion */
+        .faq-item {
+            border-bottom: 1px solid #ddd;
+        }
+
+        .faq-question {
+            padding: 15px;
+            cursor: pointer;
+            background: #f4f6fb;
+            font-weight: bold;
+            color: #003366;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .faq-question:hover {
+            background: #e8edff;
+        }
+
+        .faq-answer {
+            display: none;
+            padding: 15px;
+            background: #ffffff;
+            font-size: 14.5px;
+        }
+
+        .faq-question span {
+            font-size: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        .faq-question.active span {
+            transform: rotate(45deg);
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ================= HEADER ================= -->
+    <div id="header"></div>
+
+    <!-- ================= BANNER ================= -->
+    <section class="help-banner">
+        <h1>Help & Support</h1>
+        <p>We are here to guide and support parents & students</p>
+    </section>
+
+    <!-- ================= CONTENT ================= -->
+    <section class="help-section">
+        <div class="help-container">
+
+            <h2>General Assistance</h2>
+            <p>
+                Mukesh Rathore School is committed to providing timely and transparent support to parents and students.
+                Our administrative and academic teams are available during school working hours to resolve queries
+                related to admissions, academics, fees, and general school matters.
+            </p>
+
+            <h2>Admissions Help</h2>
+            <p>
+                The school provides complete assistance for new admissions including eligibility, required documents,
+                admission timelines, and fee structure. Parents are encouraged to visit the school office or the
+                Admissions section of the website for accurate guidance.
+            </p>
+
+            <h2>Fee & Payment Support</h2>
+            <p>
+                Parents can seek help regarding fee structure, installment options, payment modes, and receipt-related
+                queries. The accounts department ensures transparency and clarity in all fee-related matters.
+            </p>
+
+            <h2>Academic & Student Support</h2>
+            <p>
+                Support is available for syllabus queries, examinations, competitive exam preparation, co-curricular
+                activities, and student well-being. Parents may request meetings with teachers or the Principal through
+                the school office.
+            </p>
+
+            <h2>Certificates & Documents</h2>
+            <p>
+                The school assists with issuing bonafide certificates, transfer certificates, attendance records, and
+                academic reports upon request.
+            </p>
+
+            <h2>Future Online Portal</h2>
+            <p>
+                Mukesh Rathore School plans to introduce student and teacher login portals in the near future for
+                accessing results, notices, and academic records.
+            </p>
+
+            <h2>Frequently Asked Questions (FAQs)</h2>
+
+            <!-- FAQ ACCORDION -->
+            <div class="faq-item">
+                <div class="faq-question">What classes does the school offer? <span>+</span></div>
+                <div class="faq-answer">The school offers education from Class I to Class X.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">What curriculum does the school follow? <span>+</span></div>
+                <div class="faq-answer">Mukesh Rathore School follows the CBSE curriculum.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">What are the school timings? <span>+</span></div>
+                <div class="faq-answer">The school operates from 8:00 AM to 3:00 PM, Monday to Saturday.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">How can parents pay school fees? <span>+</span></div>
+                <div class="faq-answer">Fees can be paid through online or offline modes as informed by the school.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">Is there a fee discount for lump sum payment? <span>+</span></div>
+                <div class="faq-answer">Yes, a discount may be available if the full fee is paid at admission.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">Does the school offer competitive exam preparation? <span>+</span></div>
+                <div class="faq-answer">Yes, foundation-level preparation for Olympiads and competitive exams is
+                    provided.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">How can parents meet teachers? <span>+</span></div>
+                <div class="faq-answer">Parents can meet teachers during PTMs or by scheduling an appointment.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">Are sports compulsory? <span>+</span></div>
+                <div class="faq-answer">Yes, sports and physical education are integral parts of the curriculum.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">Is medical support available? <span>+</span></div>
+                <div class="faq-answer">Basic first-aid and medical assistance is available during school hours.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">How can parents contact the school? <span>+</span></div>
+                <div class="faq-answer">Parents can contact the school office via phone or email during working hours.
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ================= FOOTER ================= -->
+    <div id="footer"></div>
+
+    <!-- ================= LOAD HEADER & FOOTER ================= -->
+    <script>
+        fetch("/header.html")
+            .then(res => res.text())
+            .then(data => document.getElementById("header").innerHTML = data);
+
+        fetch("/footer.html")
+            .then(res => res.text())
+            .then(data => document.getElementById("footer").innerHTML = data);
+    </script>
+
+    <!-- ================= ACCORDION SCRIPT ================= -->
+    <script>
+        document.querySelectorAll(".faq-question").forEach(item => {
+            item.addEventListener("click", () => {
+                item.classList.toggle("active");
+                const answer = item.nextElementSibling;
+                answer.style.display = answer.style.display === "block" ? "none" : "block";
+            });
+        });
+    </script>
+
+    <script src="/js/main.js"></script>
+</body>
+
+</html>

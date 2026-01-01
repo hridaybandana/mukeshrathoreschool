@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Teacher Dashboard | Mukesh Rathore School</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="/css/style.css">
+
+    <style>
+        body {
+            background: #f4f7fb;
+        }
+
+        .dashboard {
+            max-width: 1200px;
+            margin: 200px auto 60px;
+            padding: 20px;
+        }
+
+        .profile-card {
+            background: linear-gradient(135deg, #003366, #00509d);
+            color: white;
+            border-radius: 10px;
+            padding: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            margin-top: 55px;
+        }
+
+        .profile-card h2 {
+            margin: 0;
+        }
+
+        .profile-card p {
+            margin: 4px 0;
+            opacity: 0.9;
+        }
+
+        .badge {
+            background: #ffcc00;
+            color: #003366;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 8px;
+            padding: 18px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+            border-left: 5px solid #003366;
+        }
+
+        .card h3 {
+            margin-bottom: 12px;
+            color: #003366;
+            font-size: 16px;
+        }
+
+        .info {
+            font-size: 14px;
+            margin-bottom: 6px;
+        }
+
+        .info strong {
+            color: #003366;
+        }
+
+        .stat {
+            font-size: 26px;
+            font-weight: bold;
+            color: #003366;
+        }
+
+        .stat-label {
+            font-size: 13px;
+            color: #666;
+        }
+
+        @media(max-width: 768px) {
+            .profile-card {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <div id="header"></div>
+
+    <div class="dashboard">
+
+        <!-- PROFILE HEADER -->
+        <div class="profile-card">
+            <div>
+                <h2 id="teacherName">Teacher Name</h2>
+                <p id="teacherReg">Reg No:</p>
+                <p id="designation"></p>
+            </div>
+            <div class="badge" id="department">Department</div>
+        </div>
+
+        <!-- DASHBOARD GRID -->
+        <div class="grid" id="dashboardContent"></div>
+
+    </div>
+
+    <!-- FOOTER -->
+    <div id="footer"></div>
+
+    <!-- LOAD HEADER & FOOTER -->
+    <script>
+        fetch("/header.html").then(r => r.text()).then(t => header.innerHTML = t);
+        fetch("/footer.html").then(r => r.text()).then(t => footer.innerHTML = t);
+    </script>
+
+    <!-- TEACHER DASHBOARD SCRIPT -->
+    <script>
+        const loggedInTeacher = sessionStorage.getItem("loggedInTeacher");
+
+        if (!loggedInTeacher) {
+            alert("Unauthorized access. Please sign in again.");
+            window.location.href = "/signin.html";
+        }
+
+        fetch("https://opensheet.elk.sh/1Y3FfzxnKieCSNAbOygDnXbtPZMuZBoZUuJOBeM24b9I/TeacherData")
+            .then(res => res.json())
+            .then(data => {
+
+                const teacher = data.find(t => t.Teacher_Reg_No === loggedInTeacher);
+
+                if (!teacher) {
+                    alert("Teacher record not found");
+                    return;
+                }
+
+                document.getElementById("teacherName").innerText = teacher.Full_Name;
+                document.getElementById("teacherReg").innerText = "Reg No: " + teacher.Teacher_Reg_No;
+                document.getElementById("designation").innerText = teacher.Designation;
+                document.getElementById("department").innerText = teacher.Department;
+
+                const container = document.getElementById("dashboardContent");
+
+                const cards = [{
+                        title: "Personal Information",
+                        data: [
+                            ["Father Name", teacher.Father_Name],
+                            ["DOB", teacher.DOB],
+                            ["Blood Group", teacher.Blood_Group],
+                            ["Category", teacher.Category]
+                        ]
+                    },
+                    {
+                        title: "Qualifications",
+                        data: [
+                            ["Qualification", teacher.Qualification],
+                            ["Certifications", teacher.Additional_Certifications],
+                            ["Subject", teacher.Subject_Specialization]
+                        ]
+                    },
+                    {
+                        title: "Teaching Assignment",
+                        data: [
+                            ["Classes", teacher.Teaching_Classes],
+                            ["Subjects", teacher.Subjects_Assigned],
+                            ["Class Teacher Of", teacher.Class_Teacher_Of]
+                        ]
+                    },
+                    {
+                        title: "Attendance Summary",
+                        stats: [
+                            ["Present Days", teacher.Present_Days],
+                            ["Absent Days", teacher.Absent_Days],
+                            ["Leave Balance", teacher.Leave_Balance]
+                        ]
+                    },
+                    {
+                        title: "Lecture Summary",
+                        stats: [
+                            ["Lectures Assigned", teacher.Lectures_Assigned],
+                            ["Lectures Taken", teacher.Lectures_Taken],
+                            ["Substitutions", teacher.Substitution_Classes]
+                        ]
+                    },
+                    {
+                        title: "Employment Details",
+                        data: [
+                            ["Employee Type", teacher.Employee_Type],
+                            ["Date of Joining", teacher.Date_of_Joining],
+                            ["Experience", teacher.Total_Experience_Years + " yrs"]
+                        ]
+                    },
+                    {
+                        title: "Salary Information",
+                        data: [
+                            ["Monthly Salary", "₹ " + teacher.Monthly_Salary],
+                            ["Salary Grade", teacher.Salary_Grade],
+                            ["PF/ESIC", teacher.PF_ESIC]
+                        ]
+                    },
+                    {
+                        title: "Contact Information",
+                        data: [
+                            ["Mobile", teacher.Mobile],
+                            ["Email", teacher.Email],
+                            ["Address", teacher.Address]
+                        ]
+                    }
+                ];
+
+                cards.forEach(c => {
+                    const div = document.createElement("div");
+                    div.className = "card";
+                    div.innerHTML = `<h3>${c.title}</h3>`;
+
+                    if (c.data) {
+                        c.data.forEach(i => {
+                            div.innerHTML +=
+                                `<div class="info"><strong>${i[0]}:</strong> ${i[1]}</div>`;
+                        });
+                    }
+
+                    if (c.stats) {
+                        c.stats.forEach(s => {
+                            div.innerHTML += `
+                                <div class="stat">${s[1]}</div>
+                                <div class="stat-label">${s[0]}</div>
+                            `;
+                        });
+                    }
+
+                    container.appendChild(div);
+                });
+
+            });
+    </script>
+
+    <script src="/js/main.js"></script>
+</body>
+
+</html>
